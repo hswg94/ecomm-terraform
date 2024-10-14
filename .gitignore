@@ -1,0 +1,22 @@
+# Local .terraform directories
+**/.terraform/*
+
+# Terraform variable files
+*.tfvars
+*.tfvars.json
+
+# Terraform state files
+*.tfstate
+*.tfstate.*
+
+# Crash logs
+crash.log
+
+# Exclude .terraform.lock.hcl to avoid locking dependencies for all users
+.terraform.lock.hcl
+
+# Exclude backup files
+*.bak
+
+# Ignore other sensitive files
+*.zip
