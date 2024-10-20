@@ -1,19 +1,3 @@
-terraform {
-  cloud {
-    organization = "computing-project"
-    workspaces {
-      name = "aws-project-workspace"
-    }
-  }
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 4.16"
-    }
-  }
-  required_version = ">= 1.2.0"
-}
-
 # Create VPC
 resource "aws_vpc" "MyFypVpc" {
   cidr_block = "10.0.0.0/16"
@@ -31,26 +15,28 @@ resource "aws_internet_gateway" "igw" {
 }
 
 # Create 2 Public Subnets
-resource "aws_subnet" "public_subnet_1" {
+resource "aws_subnet" "public-subnet-1" {
   vpc_id                  = aws_vpc.MyFypVpc.id
   cidr_block              = "10.0.1.0/24"
   availability_zone       = "ap-southeast-1a"
+  map_public_ip_on_launch = true  # Enable public IPs
   tags = {
     Name = "MyFypVpc-public-subnet-1"
   }
 }
 
-resource "aws_subnet" "public_subnet_2" {
+resource "aws_subnet" "public-subnet-2" {
   vpc_id                  = aws_vpc.MyFypVpc.id
   cidr_block              = "10.0.2.0/24"
   availability_zone       = "ap-southeast-1b"
+  map_public_ip_on_launch = true  # Enable public IPs
   tags = {
     Name = "MyFypVpc-public-subnet-2"
   }
 }
 
 # Create Route Table for routing traffic to the Internet Gateway
-resource "aws_route_table" "public_rt" {
+resource "aws_route_table" "public-rt" {
   vpc_id = aws_vpc.MyFypVpc.id
   route {
     cidr_block = "0.0.0.0/0"
@@ -62,40 +48,12 @@ resource "aws_route_table" "public_rt" {
 }
 
 # Associate the route table to the subnets
-resource "aws_route_table_association" "public_subnet_association_1" {
-  subnet_id      = aws_subnet.public_subnet_1.id
-  route_table_id = aws_route_table.public_rt.id
+resource "aws_route_table_association" "public-subnet-association-1" {
+  subnet_id      = aws_subnet.public-subnet-1.id
+  route_table_id = aws_route_table.public-rt.id
 }
 
-resource "aws_route_table_association" "public_subnet_association_2" {
-  subnet_id      = aws_subnet.public_subnet_2.id
-  route_table_id = aws_route_table.public_rt.id
+resource "aws_route_table_association" "public-subnet-association_2" {
+  subnet_id      = aws_subnet.public-subnet-2.id
+  route_table_id = aws_route_table.public-rt.id
 }
-
-# Create EC2 Instance
-resource "aws_instance" "ec2-1" {
-  ami                         = "ami-0ad522a4a529e7aa8"
-  instance_type               = "t2.micro"
-  iam_instance_profile        = aws_iam_instance_profile.AllowEC2AccessSM.id
-  vpc_security_group_ids      = [aws_security_group.ec2-sg.id]
-  subnet_id                   = aws_subnet.public_subnet_1.id
-  associate_public_ip_address = true
-  user_data                   = file("./userdata.sh")
-
-  tags = {
-    Name = "ecomm-express-api"
-  }
-}
-
-# resource "aws_instance" "ec2_2" {
-#   ami                    = var.ami
-#   instance_type          = var.instance_type
-#   vpc_security_group_ids = var.vpc_security_group_ids
-#   subnet_id              = var.subnet_id
-#   associate_public_ip_address = true
-#   tags = {
-#     Name = "EC2Instance2"
-#   }
-# }
-
-
