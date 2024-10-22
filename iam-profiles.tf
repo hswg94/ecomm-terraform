@@ -1,6 +1,6 @@
-# Create IAM Role
-resource "aws_iam_role" "AllowEC2AccessSM" {
-  name = "AllowEC2AccessSM"
+# Create IAM Role to allow EC2 to access Secrets Manager and CodeDeploy
+resource "aws_iam_role" "EC2AccessSMandCDRole" {
+  name = "EC2AccessSMandCDRole"
   assume_role_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
@@ -16,13 +16,21 @@ resource "aws_iam_role" "AllowEC2AccessSM" {
 }
 
 # Attach Secrets Manager read/write permission to the role
-resource "aws_iam_role_policy_attachment" "test-attach" {
-  role       = aws_iam_role.AllowEC2AccessSM.id
+resource "aws_iam_role_policy_attachment" "AttachSecretsManagerReadWritePolicy" {
+  role       = aws_iam_role.EC2AccessSMandCDRole.id
   policy_arn = "arn:aws:iam::aws:policy/SecretsManagerReadWrite"
 }
 
-# Create IAM Instance Profile
-resource "aws_iam_instance_profile" "AllowEC2AccessSM" {
-  name = "AllowEC2AccessSM"
-  role = aws_iam_role.AllowEC2AccessSM.name
+resource "aws_iam_role_policy_attachment" "AttachCodeDeployServiceRolePolicy" {
+  role       = aws_iam_role.EC2AccessSMandCDRole.id
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforAWSCodeDeploy"
 }
+
+# Create IAM Instance Profile by joining the permission and the role
+resource "aws_iam_instance_profile" "EC2AccessSMandCDInstanceProfile" {
+  name = "EC2AccessSMandCDInstanceProfile"
+  role = aws_iam_role.EC2AccessSMandCDRole.name
+}
+
+///////////////////////////////////////////////////////////////////////
+

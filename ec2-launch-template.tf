@@ -3,11 +3,11 @@ resource "aws_launch_template" "ecomm-api-lt" {
   name = "ecomm-api-lt"
   description   = "A launch template containing ecomm-express-api deployment to ec2 for use with auto scaling groups"
   instance_type = "t2.micro"
-  image_id      = "ami-0ad522a4a529e7aa8" //Amazon Linux 2023
+  image_id      = "ami-04b6019d38ea93034" //Amazon Linux 2023
 
   # IAM role for EC2 instance
   iam_instance_profile {
-    name = aws_iam_instance_profile.AllowEC2AccessSM.id
+    name = aws_iam_instance_profile.EC2AccessSMandCDInstanceProfile.id
   }
 
   # Security Group reference
