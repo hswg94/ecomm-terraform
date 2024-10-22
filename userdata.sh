@@ -8,7 +8,7 @@ chmod +x ./install
 ./install auto
 service codedeploy-agent start
 
-### THESE HAVE BEEN MOVED TO APPSPEC.YML on the application
+### THESE HAVE BEEN MOVED TO APPSPEC.YML ON THE APP SOURCE CODE
 # # Retrieve secrets from Secrets Manager
 # MONGO_URI=$(aws secretsmanager get-secret-value --secret-id MONGO_URI --query SecretString --output text | jq -r .MONGO_URI)
 # JWT_SECRET=$(aws secretsmanager get-secret-value --secret-id JWT_SECRET --query SecretString --output text | jq -r .JWT_SECRET)
@@ -24,7 +24,7 @@ service codedeploy-agent start
 # export PAYPAL_CLIENT_ID
 # export PAYPAL_APP_SECRET
 
-# #fetch, install and run the application
+# # fetch, install and run the application
 # # yum install -y nodejs unzip wget aws-cli jq
 # # wget https://github.com/hswg94/ecomm-express-api/archive/refs/heads/main.zip
 # # unzip main.zip
