@@ -1,9 +1,12 @@
 #!/bin/bash
 yum update -y
-yum install -y nodejs unzip wget aws-cli jq
-wget https://github.com/hswg94/ecomm-express-api/archive/refs/heads/main.zip
-unzip main.zip
-cd ecomm-express-api-main
+
+#Install and run CodeDeploy agent
+yum install -y ruby wget aws-cli jq
+wget https://aws-codedeploy-ap-southeast-1.s3.ap-southeast-1.amazonaws.com/latest/install
+chmod +x ./install
+./install auto
+service codedeploy-agent start
 
 # Retrieve secrets from Secrets Manager
 MONGO_URI=$(aws secretsmanager get-secret-value --secret-id MONGO_URI --query SecretString --output text | jq -r .MONGO_URI)
@@ -20,5 +23,10 @@ export JWT_SECRET
 export PAYPAL_CLIENT_ID
 export PAYPAL_APP_SECRET
 
+#fetch, install and run the application
+yum install -y nodejs unzip wget aws-cli jq
+wget https://github.com/hswg94/ecomm-express-api/archive/refs/heads/main.zip
+unzip main.zip
+cd ecomm-express-api-main
 npm i
 npm run server -- --port 5000 --host 0.0.0.0
