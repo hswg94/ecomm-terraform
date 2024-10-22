@@ -25,8 +25,8 @@ export PAYPAL_APP_SECRET
 
 #fetch, install and run the application
 yum install -y nodejs unzip wget aws-cli jq
-wget https://github.com/hswg94/ecomm-express-api/archive/refs/heads/main.zip
-unzip main.zip
-cd ecomm-express-api-main
-npm i
-npm run server -- --port 5000 --host 0.0.0.0
+# wget https://github.com/hswg94/ecomm-express-api/archive/refs/heads/main.zip
+# unzip main.zip
+# cd ecomm-express-api-main
+# npm i
+# npm run server -- --port 80 --host 0.0.0.0
