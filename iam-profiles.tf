@@ -52,26 +52,23 @@ resource "aws_iam_role" "CodeDeployAllowASGandEC2" {
   })
 }
 
-# Attach Secrets Manager read/write permission to the role
+# Attach Secrets Manager read/write permission to the CodeDeploy role
 resource "aws_iam_role_policy_attachment" "AttachAmazonEC2FullAccess" {
   role       = aws_iam_role.CodeDeployAllowASGandEC2.id
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2FullAccess"
 }
 
+# Attach Auto Scaling permission to the CodeDeploy role
 resource "aws_iam_role_policy_attachment" "AttachAutoScalingFullAccess" {
   role       = aws_iam_role.CodeDeployAllowASGandEC2.id
   policy_arn = "arn:aws:iam::aws:policy/AutoScalingFullAccess"
 }
 
+# Attach IAM permission to the CodeDeploy role
 resource "aws_iam_role_policy_attachment" "AttachIAMFullAccess" {
   role       = aws_iam_role.CodeDeployAllowASGandEC2.id
   policy_arn = "arn:aws:iam::aws:policy/IAMFullAccess"
 }
 
-# Create IAM Instance Profile by joining the permission and the role
-resource "aws_iam_instance_profile" "CodeDeployAllowASGandEC2InstanceProfile" {
-  name = "CodeDeployAllowASGandEC2InstanceProfile"
-  role = aws_iam_role.CodeDeployAllowASGandEC2.name
-}
 
 ///////////////////////////////////////////////////////////////////////
