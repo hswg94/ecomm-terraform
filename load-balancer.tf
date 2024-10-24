@@ -40,7 +40,7 @@ resource "aws_autoscaling_group" "ecomm-api-asg" {
   max_size              = 2
   min_size              = 1
   vpc_zone_identifier   = [aws_subnet.public-subnet-1.id, aws_subnet.public-subnet-2.id]
-
+  target_group_arns = [aws_lb_target_group.ecomm-api-tg.arn]
   launch_template {
     id      = aws_launch_template.ecomm-api-lt.id
     version = "$Latest"
@@ -48,7 +48,7 @@ resource "aws_autoscaling_group" "ecomm-api-asg" {
 }
 
 # Attach Auto Scaling Group to Target Group
-resource "aws_autoscaling_attachment" "asg-x-tg" {
-  autoscaling_group_name = aws_autoscaling_group.ecomm-api-asg.name
-  lb_target_group_arn  = aws_lb_target_group.ecomm-api-tg.arn
-}
+# resource "aws_autoscaling_attachment" "asg-x-tg" {
+#   autoscaling_group_name = aws_autoscaling_group.ecomm-api-asg.name
+#   lb_target_group_arn  = aws_lb_target_group.ecomm-api-tg.arn
+# }
