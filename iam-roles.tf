@@ -81,14 +81,43 @@ resource "aws_iam_role" "CodePipelineRole" {
     "Statement": [
       {
         "Effect": "Allow",
-        "Principal": { "Service": "codepipeline.amazonaws.com" },
+        "Principal": {
+          "Service": "codepipeline.amazonaws.com" 
+        },
         "Action": "sts:AssumeRole"
       }
     ]
   })
 }
 
-resource "aws_iam_role_policy_attachment" "AttachCodePipelinePolicy" {
+resource "aws_iam_role_policy" "CodePipelineRolePolicy" {
+  name = "codestar-connections-policy"
+  role = aws_iam_role.CodePipelineRole.id
+  policy = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Action": [
+          "codestar-connections:UseConnection"
+        ],
+        "Resource": "arn:aws:codestar-connections:*:*:connection/*"
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "AttachCodeDeploy" {
   role       = aws_iam_role.CodePipelineRole.id
-  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+  policy_arn = "arn:aws:iam::aws:policy/AWSCodeDeployFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "AttachKMS" {
+  role       = aws_iam_role.CodePipelineRole.id
+  policy_arn = "arn:aws:iam::aws:policy/AWSKeyManagementServicePowerUser"
+}
+
+resource "aws_iam_role_policy_attachment" "AttachS3" {
+  role       = aws_iam_role.CodePipelineRole.id
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
 }

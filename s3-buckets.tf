@@ -1,4 +1,4 @@
-# This bucket is used for codepipeline to store artifacts\
+# This bucket is used for codepipeline to store artifacts
 resource "aws_s3_bucket" "ecomm-express-api-bucket" {
   bucket = "ecomm-express-api-bucket-for-codepipeline"
 }
