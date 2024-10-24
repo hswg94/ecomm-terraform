@@ -73,4 +73,8 @@ resource "aws_security_group" "alb-sg" {
     protocol    = "-1" # Allow all outbound traffic
     cidr_blocks = ["0.0.0.0/0"]
   }
+
+  tags = {
+    Name = "alb-sg"
+  }
 }
