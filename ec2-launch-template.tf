@@ -1,7 +1,7 @@
 #ec2 launch template
 resource "aws_launch_template" "ecomm-api-lt" {
   name = "ecomm-api-lt"
-  description   = "A launch template containing ecomm-express-api deployment to ec2 for use with auto scaling groups"
+  description   = "A launch template containing ecomm-api deployment to ec2 for use with auto scaling groups"
   instance_type = "t2.micro"
   image_id      = "ami-04b6019d38ea93034" //Amazon Linux 2023
 
