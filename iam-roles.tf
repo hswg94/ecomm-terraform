@@ -98,10 +98,11 @@ resource "aws_iam_role_policy" "CodePipelineRolePolicy" {
     "Statement" : [
       {
         "Action" : [
-          "codeconnections:UseConnection"
+          "codestar-connections:UseConnection"
         ],
         "Effect" : "Allow",
         "Resource" : [
+          "arn:aws:codestar-connections:*:*:connection/*",
           "arn:aws:codeconnections:*:*:connection/*"
         ]
       }
