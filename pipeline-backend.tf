@@ -63,8 +63,8 @@ resource "aws_codepipeline" "ecomm-api-pl" {
       input_artifacts = ["source_output"]
       version         = "1"
       configuration = {
-        ApplicationName = "ecomm-api"
-        DeploymentGroupName = "ecomm-api-dg"
+        ApplicationName = aws_codedeploy_app.ecomm-api.name
+        DeploymentGroupName = aws_codedeploy_deployment_group.ecomm-api-dg.deployment_group_name
       }
     }
   }
