@@ -17,7 +17,7 @@ resource "aws_codedeploy_deployment_group" "ecomm-api-dg" {
 ////////////////////////////////////////////////////////////////////
 // This section creates the pipeline //
 
-//create connection to github (Authentication with the connection provider MUST BE completed in the AWS Console)
+//Create a connection (Authentication with GitHub MUST BE completed in the AWS Console)
 # resource "aws_codestarconnections_connection" "ecomm-api-pl-conn" {
 #   name          = "ecomm-api-pl-conn"
 #   provider_type = "GitHub"
