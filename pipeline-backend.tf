@@ -1,11 +1,11 @@
-resource "aws_codedeploy_app" "ecomm-express-api" {
+resource "aws_codedeploy_app" "ecomm-api" {
   compute_platform = "Server"
-  name             = "ecomm-express-api"
+  name             = "ecomm-api"
 }
 
-resource "aws_codedeploy_deployment_group" "ecomm-express-api-dg" {
-  app_name               = aws_codedeploy_app.ecomm-express-api.name
-  deployment_group_name  = "ecomm-express-api-dg"
+resource "aws_codedeploy_deployment_group" "ecomm-api-dg" {
+  app_name               = aws_codedeploy_app.ecomm-api.name
+  deployment_group_name  = "ecomm-api-dg"
   deployment_config_name = "CodeDeployDefault.AllAtOnce"
   service_role_arn       = aws_iam_role.CodeDeployAllowASGandEC2.arn
   deployment_style {
@@ -17,21 +17,21 @@ resource "aws_codedeploy_deployment_group" "ecomm-express-api-dg" {
 ////////////////////////////////////////////////////////////////////
 // This section creates the pipeline //
 
-//create connection to github
-resource "aws_codestarconnections_connection" "ecomm-express-api-pl-conn" {
-  name          = "ecomm-express-api-pl-conn"
-  provider_type = "GitHub"
-}
+//create connection to github (Create it in the UI as AWS does not allow using CLI to use token)
+# resource "aws_codestarconnections_connection" "ecomm-api-pl-conn" {
+#   name          = "ecomm-api-pl-conn"
+#   provider_type = "GitHub"
+# }
 
 //create the pipeline
-resource "aws_codepipeline" "ecomm-express-api-pl" {
-  name     = "ecomm-express-api-pl"
+resource "aws_codepipeline" "ecomm-api-pl" {
+  name     = "ecomm-api-pl"
   role_arn = aws_iam_role.CodePipelineRole.arn
   pipeline_type = "V2"
   execution_mode = "QUEUED"
 
   artifact_store {
-    location = aws_s3_bucket.ecomm-express-api-bucket.bucket
+    location = aws_s3_bucket.ecomm-api-bucket.bucket
     type     = "S3"
   }
 
@@ -45,7 +45,7 @@ resource "aws_codepipeline" "ecomm-express-api-pl" {
       version          = "1"
       output_artifacts = ["source_output"]
       configuration = {
-        ConnectionArn    = aws_codestarconnections_connection.ecomm-express-api-pl-conn.arn
+        ConnectionArn    = "arn:aws:codeconnections:ap-southeast-1:971422707089:connection/b9f056f7-5e7b-411b-b1b6-5bf1cde49b35" // create this in UI
         FullRepositoryId = "hswg94/ecomm-express-api"
         BranchName       = "main"
         DetectChanges = "true"
@@ -63,8 +63,8 @@ resource "aws_codepipeline" "ecomm-express-api-pl" {
       input_artifacts = ["source_output"]
       version         = "1"
       configuration = {
-        ApplicationName = "ecomm-express-api"
-        DeploymentGroupName = "ecomm-express-api-dg"
+        ApplicationName = "ecomm-api"
+        DeploymentGroupName = "ecomm-api-dg"
       }
     }
   }

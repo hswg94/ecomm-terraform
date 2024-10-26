@@ -77,31 +77,33 @@ resource "aws_iam_role_policy_attachment" "AttachIAMFullAccess" {
 resource "aws_iam_role" "CodePipelineRole" {
   name = "CodePipelineRole"
   assume_role_policy = jsonencode({
-    "Version": "2012-10-17",
-    "Statement": [
+    "Version" : "2012-10-17",
+    "Statement" : [
       {
-        "Effect": "Allow",
-        "Principal": {
-          "Service": "codepipeline.amazonaws.com" 
+        "Effect" : "Allow",
+        "Principal" : {
+          "Service" : "codepipeline.amazonaws.com"
         },
-        "Action": "sts:AssumeRole"
+        "Action" : "sts:AssumeRole"
       }
     ]
   })
 }
 
 resource "aws_iam_role_policy" "CodePipelineRolePolicy" {
-  name = "codestar-connections-policy"
+  name = "codeconnections-policy"
   role = aws_iam_role.CodePipelineRole.id
   policy = jsonencode({
-    "Version": "2012-10-17",
-    "Statement": [
+    "Version" : "2012-10-17",
+    "Statement" : [
       {
-        "Effect": "Allow",
-        "Action": [
-          "codestar-connections:UseConnection"
+        "Action" : [
+          "codeconnections:UseConnection"
         ],
-        "Resource": "arn:aws:codestar-connections:*:*:connection/*"
+        "Effect" : "Allow",
+        "Resource" : [
+          "arn:aws:codeconnections:*:*:connection/*"
+        ]
       }
     ]
   })
