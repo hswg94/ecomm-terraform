@@ -3,10 +3,24 @@ resource "aws_route53_zone" "primary" {
   name = "hswg94.com"
 }
 
+# Update name servers on the registered domain to match hosted zone
+resource "aws_route53domains_registered_domain" "update-domain-ns" {
+  domain_name   = "hswg94.com"
+  auto_renew    = "false"
+  transfer_lock = "false"
+
+  dynamic "name_server" {
+    for_each = toset(aws_route53_zone.primary.name_servers)
+    content {
+      name = name_server.value
+    }
+  }
+}
+
 //Create Records
 resource "aws_route53_record" "www" {
   zone_id = aws_route53_zone.primary.zone_id
-  name    = "api.ecomm.hswg94.com"
+  name    = "api.hswg94.com"
   type    = "A"
 
   alias {
@@ -16,27 +30,18 @@ resource "aws_route53_record" "www" {
   }
 }
 
-resource "aws_route53domains_registered_domain" "update_domain_ns" {
-  domain_name = "hswg94.com"
-  auto_renew  = "false"
-  transfer_lock = "false"
-  dynamic "name_server" {
-    for_each = toset(aws_route53_zone.primary.name_servers)
-    content {
-      name = name_server.value
+resource "aws_route53_record" "cert-validation" {
+  for_each = {
+    for dvo in aws_acm_certificate.cert.domain_validation_options : dvo.domain_name => {
+      name   = dvo.resource_record_name
+      record = dvo.resource_record_value
+      type   = dvo.resource_record_type
     }
   }
-  # The result after iteration
-  # name_server {
-  #   name = aws_route53_zone.primary.name_servers[0]
-  # }
-  # name_server {
-  #   name = aws_route53_zone.primary.name_servers[1]
-  # }
-  # name_server {
-  #   name = aws_route53_zone.primary.name_servers[2]
-  # }
-  # name_server {
-  #   name = aws_route53_zone.primary.name_servers[3]
-  # }
+  allow_overwrite = true
+  name            = each.value.name
+  records         = [each.value.record]
+  ttl             = 60
+  type            = each.value.type
+  zone_id         = aws_route53_zone.primary.zone_id
 }
