@@ -1,0 +1,13 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - npm install           # Install dependencies
+      - npm run build         # Build the React app
+      - ls -la dist           # List contents of the dist folder to verify output
+
+artifacts:
+  base-directory: dist          # Set 'dist' as the base directory
+  files:
+    - '**/*'                    # Match all files and folders within dist
