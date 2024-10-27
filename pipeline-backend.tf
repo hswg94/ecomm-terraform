@@ -45,7 +45,7 @@ resource "aws_codepipeline" "ecomm-api-pl" {
       version          = "1"
       output_artifacts = ["source_output"]
       configuration = {
-        ConnectionArn    = "arn:aws:codeconnections:ap-southeast-1:971422707089:connection/b9f056f7-5e7b-411b-b1b6-5bf1cde49b35" // create this in UI
+        ConnectionArn    = "arn:aws:codeconnections:ap-southeast-1:971422707089:connection/0ae0e363-0d9d-4779-a91c-c88e72d2c7d8" // create the connection in UI
         FullRepositoryId = "hswg94/ecomm-express-api"
         BranchName       = "main"
         DetectChanges = "true"
