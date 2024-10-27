@@ -15,7 +15,6 @@ resource "aws_iam_role" "EC2AccessSMandCDRole" {
   })
 }
 
-# Attach Secrets Manager read/write permission to the role
 resource "aws_iam_role_policy_attachment" "AttachSecretsManagerReadWritePolicy" {
   role       = aws_iam_role.EC2AccessSMandCDRole.id
   policy_arn = "arn:aws:iam::aws:policy/SecretsManagerReadWrite"
@@ -26,7 +25,6 @@ resource "aws_iam_role_policy_attachment" "AttachCodeDeployServiceRolePolicy" {
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforAWSCodeDeploy"
 }
 
-# Create IAM Instance Profile by joining the permission and the role
 resource "aws_iam_instance_profile" "EC2AccessSMandCDInstanceProfile" {
   name = "EC2AccessSMandCDInstanceProfile"
   role = aws_iam_role.EC2AccessSMandCDRole.name
@@ -34,9 +32,9 @@ resource "aws_iam_instance_profile" "EC2AccessSMandCDInstanceProfile" {
 
 ///////////////////////////////////////////////////////////////////////
 
-# Create IAM Role to allow CodeDeploy to access ASG and EC2
-resource "aws_iam_role" "CodeDeployAllowASGandEC2" {
-  name = "CodeDeployAllowASGandEC2"
+# CodeDeploy Role to access ASG and EC2 
+resource "aws_iam_role" "CodeDeployRole" {
+  name = "CodeDeployRole"
   assume_role_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
@@ -52,28 +50,26 @@ resource "aws_iam_role" "CodeDeployAllowASGandEC2" {
   })
 }
 
-# Attach Secrets Manager read/write permission to the CodeDeploy role
+
 resource "aws_iam_role_policy_attachment" "AttachAmazonEC2FullAccess" {
-  role       = aws_iam_role.CodeDeployAllowASGandEC2.id
+  role       = aws_iam_role.CodeDeployRole.id
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2FullAccess"
 }
 
-# Attach Auto Scaling permission to the CodeDeploy role
 resource "aws_iam_role_policy_attachment" "AttachAutoScalingFullAccess" {
-  role       = aws_iam_role.CodeDeployAllowASGandEC2.id
+  role       = aws_iam_role.CodeDeployRole.id
   policy_arn = "arn:aws:iam::aws:policy/AutoScalingFullAccess"
 }
 
-# Attach IAM permission to the CodeDeploy role
 resource "aws_iam_role_policy_attachment" "AttachIAMFullAccess" {
-  role       = aws_iam_role.CodeDeployAllowASGandEC2.id
+  role       = aws_iam_role.CodeDeployRole.id
   policy_arn = "arn:aws:iam::aws:policy/IAMFullAccess"
 }
 
 
 ///////////////////////////////////////////////////////////////////////
 
-# Create CodePipeline Role
+# CodePipeline Role
 resource "aws_iam_role" "CodePipelineRole" {
   name = "CodePipelineRole"
   assume_role_policy = jsonencode({
@@ -90,37 +86,63 @@ resource "aws_iam_role" "CodePipelineRole" {
   })
 }
 
-resource "aws_iam_role_policy" "CodePipelineRolePolicy" {
+resource "aws_iam_role_policy" "AttachCodeConnectionsToCodePipeline" {
   name = "codeconnections-policy"
   role = aws_iam_role.CodePipelineRole.id
-  policy = jsonencode({
+  policy = file("codestar-connection.json")
+}
+
+resource "aws_iam_role_policy_attachment" "AttachCodeDeploytoCodePipeline" {
+  role       = aws_iam_role.CodePipelineRole.id
+  policy_arn = "arn:aws:iam::aws:policy/AWSCodeDeployFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "AttachKMStoCodePipeline" {
+  role       = aws_iam_role.CodePipelineRole.id
+  policy_arn = "arn:aws:iam::aws:policy/AWSKeyManagementServicePowerUser"
+}
+
+resource "aws_iam_role_policy_attachment" "AttachS3toCodePipeline" {
+  role       = aws_iam_role.CodePipelineRole.id
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+}
+
+//////////////////////////////////////////////////////////////////
+
+# CodeBuild Role
+resource "aws_iam_role" "CodeBuildRole" {
+  name = "CodeBuildRole"
+  assume_role_policy = jsonencode({
     "Version" : "2012-10-17",
     "Statement" : [
       {
-        "Action" : [
-          "codestar-connections:UseConnection"
-        ],
         "Effect" : "Allow",
-        "Resource" : [
-          "arn:aws:codestar-connections:*:*:connection/*",
-          "arn:aws:codeconnections:*:*:connection/*"
-        ]
+        "Principal" : {
+          "Service" : "codebuild.amazonaws.com"
+        },
+        "Action" : "sts:AssumeRole"
       }
     ]
   })
 }
 
-resource "aws_iam_role_policy_attachment" "AttachCodeDeploy" {
-  role       = aws_iam_role.CodePipelineRole.id
-  policy_arn = "arn:aws:iam::aws:policy/AWSCodeDeployFullAccess"
+resource "aws_iam_role_policy" "AttachCodeConnectionsToCodeBuild" {
+  name = "codeconnections-policy"
+  role = aws_iam_role.CodeBuildRole.id
+  policy = file("codestar-connection.json")
 }
 
-resource "aws_iam_role_policy_attachment" "AttachKMS" {
-  role       = aws_iam_role.CodePipelineRole.id
+resource "aws_iam_role_policy_attachment" "AttachKMStoCodeBuild" {
+  role       = aws_iam_role.CodeBuildRole.id
   policy_arn = "arn:aws:iam::aws:policy/AWSKeyManagementServicePowerUser"
 }
 
-resource "aws_iam_role_policy_attachment" "AttachS3" {
-  role       = aws_iam_role.CodePipelineRole.id
+resource "aws_iam_role_policy_attachment" "AttachS3toCodeBuild" {
+  role       = aws_iam_role.CodeBuildRole.id
   policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "AttachCloudWatchLogstoCodeBuild" {
+  role       = aws_iam_role.CodeBuildRole.id
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
 }
