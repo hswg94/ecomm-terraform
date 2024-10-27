@@ -9,14 +9,17 @@ resource "aws_lb" "ecomm-api-alb" {
 # Listener to allow communication between load balancer and the target group
 resource "aws_lb_listener" "ecomm-api-listener" {
   load_balancer_arn = aws_lb.ecomm-api-alb.arn
-  port              = 80
-  protocol          = "HTTP"
+  port              = 443
+  protocol          = "HTTPS"
+  certificate_arn = "arn:aws:acm:ap-southeast-1:971422707089:certificate/4fc6b0fc-c894-4e6d-9f41-9cb7dd54ab29"
+  ssl_policy = "ELBSecurityPolicy-2016-08"
 
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.ecomm-api-tg.arn
   }
 }
+
 
 // Target Group that consists of an auto-scaling group
 resource "aws_lb_target_group" "ecomm-api-tg" {
@@ -46,9 +49,3 @@ resource "aws_autoscaling_group" "ecomm-api-asg" {
     version = "$Latest"
   }
 }
-
-# Attach Auto Scaling Group to Target Group
-# resource "aws_autoscaling_attachment" "asg-x-tg" {
-#   autoscaling_group_name = aws_autoscaling_group.ecomm-api-asg.name
-#   lb_target_group_arn  = aws_lb_target_group.ecomm-api-tg.arn
-# }
