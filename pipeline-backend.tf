@@ -7,7 +7,7 @@ resource "aws_codedeploy_deployment_group" "ecomm-api-dg" {
   app_name               = aws_codedeploy_app.ecomm-api.name
   deployment_group_name  = "ecomm-api-dg"
   deployment_config_name = "CodeDeployDefault.AllAtOnce"
-  service_role_arn       = aws_iam_role.CodeDeployAllowASGandEC2.arn
+  service_role_arn       = aws_iam_role.CodeDeployRole.arn
   deployment_style {
     deployment_type = "IN_PLACE"
   }
@@ -31,7 +31,7 @@ resource "aws_codepipeline" "ecomm-api-pl" {
   execution_mode = "QUEUED"
 
   artifact_store {
-    location = aws_s3_bucket.ecomm-api-bucket.bucket
+    location = aws_s3_bucket.ecomm-api-s3-for-cp.bucket
     type     = "S3"
   }
 

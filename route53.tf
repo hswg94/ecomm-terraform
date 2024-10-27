@@ -26,7 +26,7 @@ resource "aws_route53domains_registered_domain" "update_domain_ns" {
       name = name_server.value
     }
   }
-  # The example result after iteration will be this
+  # The result after iteration
   # name_server {
   #   name = aws_route53_zone.primary.name_servers[0]
   # }
