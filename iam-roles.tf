@@ -89,7 +89,7 @@ resource "aws_iam_role" "CodePipelineRole" {
 resource "aws_iam_role_policy" "AttachCodeConnectionsToCodePipeline" {
   name = "codeconnections-policy"
   role = aws_iam_role.CodePipelineRole.id
-  policy = file("codestar-connection.json")
+  policy = file("codestar-connections-policy.json")
 }
 
 resource "aws_iam_role_policy_attachment" "AttachCodeDeploytoCodePipeline" {
@@ -129,7 +129,7 @@ resource "aws_iam_role" "CodeBuildRole" {
 resource "aws_iam_role_policy" "AttachCodeConnectionsToCodeBuild" {
   name = "codeconnections-policy"
   role = aws_iam_role.CodeBuildRole.id
-  policy = file("codestar-connection.json")
+  policy = file("codestar-connections-policy.json")
 }
 
 resource "aws_iam_role_policy_attachment" "AttachKMStoCodeBuild" {
