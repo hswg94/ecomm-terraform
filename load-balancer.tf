@@ -11,7 +11,7 @@ resource "aws_lb_listener" "ecomm-api-listener" {
   load_balancer_arn = aws_lb.ecomm-api-alb.arn
   port              = 443
   protocol          = "HTTPS"
-  certificate_arn = "arn:aws:acm:ap-southeast-1:971422707089:certificate/4fc6b0fc-c894-4e6d-9f41-9cb7dd54ab29"
+  certificate_arn = aws_acm_certificate.cert.arn
   ssl_policy = "ELBSecurityPolicy-2016-08"
 
   default_action {
