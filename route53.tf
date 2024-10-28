@@ -18,7 +18,7 @@ resource "aws_route53domains_registered_domain" "update-domain-ns" {
 }
 
 //Create Records
-resource "aws_route53_record" "www" {
+resource "aws_route53_record" "api-backend-endpoint" {
   zone_id = aws_route53_zone.primary.zone_id
   name    = "api.hswg94.com"
   type    = "A"
@@ -30,9 +30,22 @@ resource "aws_route53_record" "www" {
   }
 }
 
+//Create Records
+resource "aws_route53_record" "api-frontend-endpoint" {
+  zone_id = aws_route53_zone.primary.zone_id
+  name    = "ecomm.hswg94.com"
+  type    = "A"
+
+  alias {
+    name                   = aws_cloudfront_distribution.s3-distribution.domain_name
+    zone_id                = aws_cloudfront_distribution.s3-distribution.hosted_zone_id
+    evaluate_target_health = false
+  }
+}
+
 resource "aws_route53_record" "cert-validation" {
   for_each = {
-    for dvo in aws_acm_certificate.cert.domain_validation_options : dvo.domain_name => {
+    for dvo in aws_acm_certificate.ap-southeast-1-cert.domain_validation_options : dvo.domain_name => {
       name   = dvo.resource_record_name
       record = dvo.resource_record_value
       type   = dvo.resource_record_type
