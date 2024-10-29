@@ -1,8 +1,8 @@
 # Import the 'Terraform Variable' from HCP terraform
 variable "GITHUB_TOKEN" {
-  type = string
+  type        = string
   description = "GitHub Token for CodeBuild"
-  sensitive = true
+  sensitive   = true
 }
 
 # Create the CodeBuild Source Credential
@@ -45,7 +45,17 @@ resource "aws_codebuild_project" "ecomm-frontend-builder" {
 
   logs_config {
     cloudwatch_logs {
-        status = "ENABLED"
+      status = "ENABLED"
     }
+  }
+}
+
+
+# terraform_data resource to trigger CodeBuild on initial setup
+resource "terraform_data" "initial_codebuild_trigger" {
+  triggers_replace = aws_codebuild_project.ecomm-frontend-builder.id
+  //must set AWS_DEFAULT_REGION in HCP Terraform as env var
+  provisioner "local-exec" {
+    command = "aws codebuild start-build --project-name ${aws_codebuild_project.ecomm-frontend-builder.name} --region ap-southeast-1"
   }
 }
