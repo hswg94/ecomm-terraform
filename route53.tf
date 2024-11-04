@@ -30,19 +30,6 @@ resource "aws_route53_record" "api-backend-endpoint" {
   }
 }
 
-//Create Records
-resource "aws_route53_record" "api-frontend-endpoint" {
-  zone_id = aws_route53_zone.primary.zone_id
-  name    = "ecomm.hswg94.com"
-  type    = "A"
-
-  alias {
-    name                   = aws_cloudfront_distribution.s3-distribution.domain_name
-    zone_id                = aws_cloudfront_distribution.s3-distribution.hosted_zone_id
-    evaluate_target_health = false
-  }
-}
-
 resource "aws_route53_record" "cert-validation" {
   for_each = {
     for dvo in aws_acm_certificate.ap-southeast-1-cert.domain_validation_options : dvo.domain_name => {
@@ -57,4 +44,18 @@ resource "aws_route53_record" "cert-validation" {
   ttl             = 60
   type            = each.value.type
   zone_id         = aws_route53_zone.primary.zone_id
+}
+
+
+//Create Records
+resource "aws_route53_record" "api-frontend-endpoint" {
+  zone_id = aws_route53_zone.primary.zone_id
+  name    = "ecomm.hswg94.com"
+  type    = "A"
+
+  alias {
+    name                   = aws_cloudfront_distribution.s3-distribution.domain_name
+    zone_id                = aws_cloudfront_distribution.s3-distribution.hosted_zone_id
+    evaluate_target_health = false
+  }
 }

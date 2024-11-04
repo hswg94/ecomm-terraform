@@ -1,16 +1,7 @@
 resource "aws_security_group" "ec2-sg" {
   name        = "ec2-sg"
-  description = "Allow SSH, Custom TCP on port 5000, and ICMP traffic"
+  description = "Allow HTTP and ICMP traffic"
   vpc_id      = aws_vpc.MyFypVpc.id
-
-  # Inbound rules
-  # ingress {
-  #   description = "Allow SSH from anywhere"
-  #   from_port   = 22
-  #   to_port     = 22
-  #   protocol    = "tcp"
-  #   cidr_blocks = ["0.0.0.0/0"]
-  # }
 
   ingress {
     description = "Allow HTTP from anywhere"
@@ -19,13 +10,15 @@ resource "aws_security_group" "ec2-sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  ingress {
-    description = "Allow HTTPS from anywhere"
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+
+  # # Inbound rules
+  # ingress {
+  #   description = "Allow SSH from anywhere"
+  #   from_port   = 22
+  #   to_port     = 22
+  #   protocol    = "tcp"
+  #   cidr_blocks = ["0.0.0.0/0"]
+  # }
 
   ingress {
     description = "Allow ICMP traffic from anywhere"
@@ -48,17 +41,11 @@ resource "aws_security_group" "ec2-sg" {
   }
 }
 
+
 resource "aws_security_group" "alb-sg" {
   name        = "alb-sg"
-  description = "Allow HTTP and HTTPS traffic to the ALB"
-  vpc_id      = aws_vpc.MyFypVpc.id # Replace with your VPC ID
-
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # Allow HTTP from anywhere
-  }
+  description = "Allow HTTPS and ICMP traffic to the ALB"
+  vpc_id      = aws_vpc.MyFypVpc.id
 
   ingress {
     from_port   = 443

@@ -56,6 +56,6 @@ resource "terraform_data" "initial_codebuild_trigger" {
   triggers_replace = aws_codebuild_project.ecomm-frontend-builder.id
   //must set AWS_DEFAULT_REGION in HCP Terraform as env var
   provisioner "local-exec" {
-    command = "aws codebuild start-build --project-name ${aws_codebuild_project.ecomm-frontend-builder.name} --region ap-southeast-1"
+    command = "aws codebuild start-build --project-name ${aws_codebuild_project.ecomm-frontend-builder.name}"
   }
 }
