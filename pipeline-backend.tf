@@ -1,19 +1,3 @@
-resource "aws_codedeploy_app" "ecomm-api" {
-  compute_platform = "Server"
-  name             = "ecomm-api"
-}
-
-resource "aws_codedeploy_deployment_group" "ecomm-api-dg" {
-  app_name               = aws_codedeploy_app.ecomm-api.name
-  deployment_group_name  = "ecomm-api-dg"
-  deployment_config_name = "CodeDeployDefault.AllAtOnce"
-  service_role_arn       = aws_iam_role.CodeDeployRole.arn
-  deployment_style {
-    deployment_type = "IN_PLACE"
-  }
-  autoscaling_groups = [aws_autoscaling_group.ecomm-api-asg.id]
-}
-
 ////////////////////////////////////////////////////////////////////
 // This section creates the pipeline //
 
@@ -68,4 +52,21 @@ resource "aws_codepipeline" "ecomm-api-pl" {
       }
     }
   }
+}
+
+resource "aws_codedeploy_deployment_group" "ecomm-api-dg" {
+  app_name               = aws_codedeploy_app.ecomm-api.name
+  deployment_group_name  = "ecomm-api-dg"
+  # deployment_config_name = "CodeDeployDefault.AllAtOnce"
+  deployment_config_name = "CodeDeployDefault.OneAtATime"
+  service_role_arn       = aws_iam_role.CodeDeployRole.arn
+  deployment_style {
+    deployment_type = "IN_PLACE"
+  }
+  autoscaling_groups = [aws_autoscaling_group.ecomm-api-asg.id]
+}
+
+resource "aws_codedeploy_app" "ecomm-api" {
+  name             = "ecomm-api"
+  compute_platform = "Server"
 }
