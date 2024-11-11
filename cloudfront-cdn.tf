@@ -46,4 +46,11 @@ resource "aws_cloudfront_distribution" "s3-distribution" {
   default_root_object = "index.html"
   is_ipv6_enabled     = true
   depends_on = [aws_acm_certificate_validation.us-east-1-cert]
+  
+  custom_error_response {
+    error_caching_min_ttl = 300
+    error_code = 403
+    response_code = 200
+    response_page_path = "/index.html"
+  }
 }
