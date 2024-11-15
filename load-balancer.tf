@@ -55,3 +55,17 @@ resource "aws_autoscaling_group" "ecomm-api-asg" {
     version = "$Latest"
   }
 }
+
+resource "aws_autoscaling_policy" "ecomm-api-asg-policy" {
+  name                   = "ecomm-api-asg-policy"
+  autoscaling_group_name = aws_autoscaling_group.ecomm-api-asg.name
+  adjustment_type    = "ChangeInCapacity"
+  policy_type = "TargetTrackingScaling"
+  target_tracking_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ASGAverageCPUUtilization"
+    }
+    target_value = 80.0
+  }
+  enabled                = true
+}
