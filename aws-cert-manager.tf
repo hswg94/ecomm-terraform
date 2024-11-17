@@ -9,6 +9,9 @@ resource "aws_acm_certificate_validation" "ap-southeast-1-cert" {
   validation_record_fqdns = [for record in aws_route53_record.cert-validation : record.fqdn]
 }
 
+/////////////
+
+// this certificate is for cloudfront
 resource "aws_acm_certificate" "us-east-1-cert" {
   provider = aws.us-east-1
   domain_name       = "hswg94.com"
