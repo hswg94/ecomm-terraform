@@ -21,7 +21,7 @@ resource "aws_s3_bucket" "ecomm-frontend-s3-for-cb-and-cf" {
 }
 
 resource "aws_s3_bucket_public_access_block" "ecomm-frontend-bucket-pab" {
-  bucket                  = aws_s3_bucket.ecomm-frontend-s3-for-cb-and-cf
+  bucket                  = aws_s3_bucket.ecomm-frontend-s3-for-cb-and-cf.id
   block_public_acls       = true
   block_public_policy     = true
   ignore_public_acls      = true
