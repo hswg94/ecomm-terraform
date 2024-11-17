@@ -40,7 +40,7 @@ resource "aws_cloudfront_distribution" "s3-distribution" {
   aliases = ["ecomm.hswg94.com"]
 
   viewer_certificate {
-    acm_certificate_arn      = aws_acm_certificate.us-east-1-cert.arn
+    acm_certificate_arn      = aws_acm_certificate_validation.us-east-1-cert.certificate_arn
     ssl_support_method       = "sni-only"     # sni-only for cost-effectiveness
     minimum_protocol_version = "TLSv1.2_2021" # Ensures TLS 1.2+ for modern security compliance
   }
@@ -55,6 +55,4 @@ resource "aws_cloudfront_distribution" "s3-distribution" {
     response_code = 200
     response_page_path = "/index.html"
   }
-
-  depends_on = [aws_acm_certificate_validation.us-east-1-cert]
 }
