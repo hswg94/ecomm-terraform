@@ -20,6 +20,14 @@ resource "aws_s3_bucket" "ecomm-frontend-s3-for-cb-and-cf" {
   force_destroy = "true" //allow bucket to be deleted by terraform without removing files
 }
 
+resource "aws_s3_bucket_public_access_block" "ecomm-api-bucket-pab" {
+  bucket                  = aws_s3_bucket.ecomm-frontend-s3-for-cb-and-cf
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
 resource "aws_s3_bucket_policy" "allow-cloudfront-access" {
   bucket = aws_s3_bucket.ecomm-frontend-s3-for-cb-and-cf.id
   policy = jsonencode({
