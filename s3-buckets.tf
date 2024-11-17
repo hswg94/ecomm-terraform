@@ -14,13 +14,13 @@ resource "aws_s3_bucket_public_access_block" "ecomm-api-bucket-pab" {
 
 ///////////////////////////////////////////////////////
 
-# This bucket is accessed by codepipeline to store ecomm-frontend
+# This bucket is accessed by codebuild and cloudfront
 resource "aws_s3_bucket" "ecomm-frontend-s3-for-cb-and-cf" {
   bucket        = "ecomm-frontend-s3-for-cb-and-cf"
-  force_destroy = "true" //allow bucket to be deleted by terraform without removing files
+  force_destroy = "true" //allow bucket to be deleted by terraform
 }
 
-resource "aws_s3_bucket_public_access_block" "ecomm-api-bucket-pab" {
+resource "aws_s3_bucket_public_access_block" "ecomm-frontend-bucket-pab" {
   bucket                  = aws_s3_bucket.ecomm-frontend-s3-for-cb-and-cf
   block_public_acls       = true
   block_public_policy     = true
