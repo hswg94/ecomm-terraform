@@ -7,6 +7,11 @@ resource "aws_cloudfront_origin_access_control" "oac-for-s3" {
 
 resource "aws_cloudfront_distribution" "s3-distribution" {
   enabled = true
+  price_class = "PriceClass_All"
+  aliases = ["ecomm.hswg94.com"]
+  http_version        = "http2"
+  default_root_object = "index.html"
+  is_ipv6_enabled     = true
 
   origin {
     domain_name              = aws_s3_bucket.ecomm-frontend-s3-for-cb-and-cf.bucket_regional_domain_name
@@ -35,19 +40,11 @@ resource "aws_cloudfront_distribution" "s3-distribution" {
     }
   }
 
-  price_class = "PriceClass_All"
-
-  aliases = ["ecomm.hswg94.com"]
-
   viewer_certificate {
     acm_certificate_arn      = aws_acm_certificate_validation.us-east-1-cert.certificate_arn
     ssl_support_method       = "sni-only"     # sni-only for cost-effectiveness
     minimum_protocol_version = "TLSv1.2_2021" # Ensures TLS 1.2+ for modern security compliance
   }
-
-  http_version        = "http2"
-  default_root_object = "index.html"
-  is_ipv6_enabled     = true
 
   custom_error_response {
     error_caching_min_ttl = 300
