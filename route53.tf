@@ -48,7 +48,7 @@ resource "aws_route53_record" "cert-validation" {
 
 
 //Create Records
-resource "aws_route53_record" "api-frontend-endpoint" {
+resource "aws_route53_record" "frontend-endpoint" {
   zone_id = aws_route53_zone.primary.zone_id
   name    = "ecomm.hswg94.com"
   type    = "A"
