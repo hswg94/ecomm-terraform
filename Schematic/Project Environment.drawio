@@ -1,0 +1,46 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.7.17 Chrome/128.0.6613.36 Electron/32.0.1 Safari/537.36" version="24.7.17">
+  <diagram id="RGr1q8CzV36uV8QbhTsL" name="Page-1">
+    <mxGraphModel dx="1434" dy="854" grid="1" gridSize="9" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="nmhevoGILWwW2k36lIsC-15" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="18" y="18" width="441" height="279" as="geometry" />
+        </mxCell>
+        <mxCell id="nmhevoGILWwW2k36lIsC-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;startArrow=classic;startFill=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" source="nmhevoGILWwW2k36lIsC-1" target="nmhevoGILWwW2k36lIsC-6" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="nmhevoGILWwW2k36lIsC-1" value="" style="dashed=0;outlineConnect=0;html=1;align=center;labelPosition=center;verticalLabelPosition=bottom;verticalAlign=top;shape=mxgraph.weblogos.github;aspect=fixed;" parent="1" vertex="1">
+          <mxGeometry x="190.29" y="180" width="69.43" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="nmhevoGILWwW2k36lIsC-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="nmhevoGILWwW2k36lIsC-2" target="nmhevoGILWwW2k36lIsC-4" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="nmhevoGILWwW2k36lIsC-2" value="" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://static-00.iconduck.com/assets.00/file-type-terraform-icon-455x512-csyun60o.png;" parent="1" vertex="1">
+          <mxGeometry x="36" y="36" width="71.98" height="81" as="geometry" />
+        </mxCell>
+        <mxCell id="nmhevoGILWwW2k36lIsC-3" value="" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Amazon_Web_Services_Logo.svg/640px-Amazon_Web_Services_Logo.svg.png;" parent="1" vertex="1">
+          <mxGeometry x="324" y="40.5" width="120" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="nmhevoGILWwW2k36lIsC-13" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="nmhevoGILWwW2k36lIsC-4" target="nmhevoGILWwW2k36lIsC-3" edge="1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="nmhevoGILWwW2k36lIsC-4" value="" style="shape=image;verticalLabelPosition=bottom;labelBackgroundColor=default;verticalAlign=top;aspect=fixed;imageAspect=0;image=https://seekvectors.com/files/download/HashiCorp-logo.png;" parent="1" vertex="1">
+          <mxGeometry x="190.29" y="40.5" width="67.97" height="72" as="geometry" />
+        </mxCell>
+        <mxCell id="nmhevoGILWwW2k36lIsC-6" value="&lt;b&gt;Terraform&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="36" y="117" width="72" height="18" as="geometry" />
+        </mxCell>
+        <mxCell id="nmhevoGILWwW2k36lIsC-7" value="&lt;b&gt;HashiCorp Platform&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="189" y="117" width="72" height="27" as="geometry" />
+        </mxCell>
+        <mxCell id="nmhevoGILWwW2k36lIsC-8" value="&lt;b&gt;AWS&lt;br&gt;Cloud&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="348" y="117" width="72" height="27" as="geometry" />
+        </mxCell>
+        <mxCell id="nmhevoGILWwW2k36lIsC-9" value="&lt;b&gt;GitHub Repository&lt;/b&gt;" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="184.5" y="252" width="81" height="36" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
