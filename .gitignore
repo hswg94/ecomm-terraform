@@ -20,3 +20,4 @@ crash.log
 
 # Ignore other sensitive files
 *.zip
+*.docx
