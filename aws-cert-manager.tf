@@ -10,7 +10,7 @@ resource "aws_acm_certificate" "ap-southeast-1-cert" {
 
 resource "aws_acm_certificate_validation" "ap-southeast-1-cert" {
   certificate_arn         = aws_acm_certificate.ap-southeast-1-cert.arn
-  validation_record_fqdns = [for record in aws_route53_record.cert-validation : record.fqdn]
+  validation_record_fqdns = [for record in aws_route53_record.cert-validation-ap-southeast-1 : record.fqdn]
 }
 
 /////////////
@@ -29,5 +29,5 @@ resource "aws_acm_certificate" "us-east-1-cert" {
 resource "aws_acm_certificate_validation" "us-east-1-cert" {
   provider                = aws.us-east-1
   certificate_arn         = aws_acm_certificate.us-east-1-cert.arn
-  validation_record_fqdns = [for record in aws_route53_record.cert-validation : record.fqdn]
+  validation_record_fqdns = [for record in aws_route53_record.cert-validation-us-east-1 : record.fqdn]
 }
