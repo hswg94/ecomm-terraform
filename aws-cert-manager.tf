@@ -4,7 +4,6 @@ resource "aws_acm_certificate" "ap-southeast-1-cert" {
   subject_alternative_names = [
     "*.hswg94.com",
     "*.api.hswg94.com",
-    "*.ecomm.hswg94.com"
   ]
   validation_method = "DNS"
 }
@@ -22,7 +21,6 @@ resource "aws_acm_certificate" "us-east-1-cert" {
   domain_name               = "hswg94.com"
     subject_alternative_names = [
     "*.hswg94.com",
-    "*.api.hswg94.com",
     "*.ecomm.hswg94.com"
   ]
   validation_method         = "DNS"
