@@ -1,3 +1,4 @@
+// Certificate for resources in AP-SOUTHEAST-1
 resource "aws_acm_certificate" "ap-southeast-1-cert" {
   domain_name       = "hswg94.com"
   subject_alternative_names = ["*.hswg94.com"]
@@ -11,7 +12,7 @@ resource "aws_acm_certificate_validation" "ap-southeast-1-cert" {
 
 /////////////
 
-// this certificate is for cloudfront
+// Certificate for CloudFront in US-EAST-1
 resource "aws_acm_certificate" "us-east-1-cert" {
   provider = aws.us-east-1
   domain_name       = "hswg94.com"
