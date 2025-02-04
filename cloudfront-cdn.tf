@@ -8,7 +8,7 @@ resource "aws_cloudfront_origin_access_control" "oac-for-s3" {
 resource "aws_cloudfront_distribution" "s3-distribution" {
   enabled = true
   price_class = "PriceClass_All"
-  aliases = ["ecomm.hswg94.com"]
+  aliases = ["ecomm.hswg94.com", "www.ecomm.hswg94.com"]
   http_version        = "http2"
   default_root_object = "index.html"
   is_ipv6_enabled     = true
