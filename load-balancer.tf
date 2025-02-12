@@ -3,6 +3,7 @@ resource "aws_lb" "ecomm-api-alb" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb-sg.id]
+  /// Deploying across 2 subnets in different AZs, IPv4 address costs will incur per AZ.
   subnets = [
     aws_subnet.public-subnet-1.id,
     aws_subnet.public-subnet-2.id
@@ -42,7 +43,12 @@ resource "aws_lb_target_group" "ecomm-api-tg" {
 
 resource "aws_autoscaling_group" "ecomm-api-asg" {
   name             = "ecomm-api-asg"
-  desired_capacity = 2 //The instances at launch
+  // single-az
+  # desired_capacity = 1 //The instances at launch
+  # max_size         = 4
+  # min_size         = 1
+  // multi-az
+  desired_capacity = 2 // The instances at launch
   max_size         = 4
   min_size         = 2
   vpc_zone_identifier = [
@@ -59,13 +65,13 @@ resource "aws_autoscaling_group" "ecomm-api-asg" {
 resource "aws_autoscaling_policy" "ecomm-api-asg-policy" {
   name                   = "ecomm-api-asg-policy"
   autoscaling_group_name = aws_autoscaling_group.ecomm-api-asg.name
-  adjustment_type    = "ChangeInCapacity"
-  policy_type = "TargetTrackingScaling"
+  adjustment_type        = "ChangeInCapacity"
+  policy_type            = "TargetTrackingScaling"
   target_tracking_configuration {
     predefined_metric_specification {
       predefined_metric_type = "ASGAverageCPUUtilization"
     }
     target_value = 80.0
   }
-  enabled                = true
+  enabled = true
 }

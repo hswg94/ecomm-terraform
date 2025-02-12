@@ -58,8 +58,8 @@ resource "aws_codepipeline" "ecomm-api-pl" {
 resource "aws_codedeploy_deployment_group" "ecomm-api-dg" {
   app_name               = aws_codedeploy_app.ecomm-api.name
   deployment_group_name  = "ecomm-api-dg"
-  # deployment_config_name = "CodeDeployDefault.AllAtOnce"
-  deployment_config_name = "CodeDeployDefault.OneAtATime"
+  # deployment_config_name = "CodeDeployDefault.AllAtOnce" // Use this for single instance
+  deployment_config_name = "CodeDeployDefault.OneAtATime" // Use this for multi instance, does not work for single instance as it requires other instances to be healthy
   service_role_arn       = aws_iam_role.CodeDeployRole.arn
   deployment_style {
     deployment_type = "IN_PLACE"
