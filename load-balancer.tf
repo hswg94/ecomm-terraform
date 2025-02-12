@@ -44,13 +44,13 @@ resource "aws_lb_target_group" "ecomm-api-tg" {
 resource "aws_autoscaling_group" "ecomm-api-asg" {
   name             = "ecomm-api-asg"
   // single-az
-  # desired_capacity = 1 //The instances at launch
-  # max_size         = 4
-  # min_size         = 1
-  // multi-az
-  desired_capacity = 2 // The instances at launch
+  desired_capacity = 1 //The instances at launch
   max_size         = 4
-  min_size         = 2
+  min_size         = 1
+  // multi-az
+  # desired_capacity = 2 // The instances at launch
+  # max_size         = 4
+  # min_size         = 2
   vpc_zone_identifier = [
     aws_subnet.public-subnet-1.id,
     aws_subnet.public-subnet-2.id
