@@ -3,7 +3,8 @@ resource "aws_launch_template" "ecomm-api-lt" {
   name = "ecomm-api-lt"
   description   = "launch template for ecomm-api deployment to ec2, use with auto scaling groups"
   instance_type = "t2.micro"
-  image_id      = "ami-04b6019d38ea93034" //Amazon Linux 2023
+  # image_id      = "ami-04b6019d38ea93034" //Amazon Linux 2023
+  image_id      = "ami-039454f12c36e7620" //Amazon Linux 2023
 
   # IAM role for EC2 instance
   iam_instance_profile {
