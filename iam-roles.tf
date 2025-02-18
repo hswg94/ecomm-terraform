@@ -1,4 +1,4 @@
-# Create IAM Role to allow EC2 to access Secrets Manager and CodeDeploy
+# Create IAM Role to allow EC2 to access Secrets Manager, CodeDeploy and CloudWatch Logs.
 resource "aws_iam_role" "EC2AccessSMandCDRole" {
   name = "EC2AccessSMandCDRole"
   assume_role_policy = jsonencode({
@@ -23,6 +23,11 @@ resource "aws_iam_role_policy_attachment" "AttachSecretsManagerReadWritePolicy" 
 resource "aws_iam_role_policy_attachment" "AttachCodeDeployServiceRolePolicy" {
   role       = aws_iam_role.EC2AccessSMandCDRole.id
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonEC2RoleforAWSCodeDeploy"
+}
+
+resource "aws_iam_role_policy_attachment" "AttachCloudWatchAgentServerPolicyPolicy" {
+  role       = aws_iam_role.EC2AccessSMandCDRole.id
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
 }
 
 resource "aws_iam_instance_profile" "EC2AccessSMandCDInstanceProfile" {
