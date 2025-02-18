@@ -2,7 +2,7 @@
 yum update -y
 
 #Install and run CodeDeploy agent
-yum install -y ruby wget aws-cli jq
+yum install -y ruby wget aws-cli jq amazon-cloudwatch-agent
 wget https://aws-codedeploy-ap-southeast-1.s3.ap-southeast-1.amazonaws.com/latest/install
 chmod +x ./install
 ./install auto
