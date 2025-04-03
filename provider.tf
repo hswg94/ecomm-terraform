@@ -1,5 +1,5 @@
 terraform {
-  required_version = ">= 1.9.8"
+  required_version = ">= 1.10.5"
   cloud {
     organization = "computing-project"
     workspaces {
@@ -9,7 +9,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 5.76"
+      version = "~> 5.89"
     }
   }
 }
