@@ -1,8 +1,7 @@
 ////////////////////////////////////////////////////////////////////
 // This section creates the pipeline //
 
-// Create a connection (Authentication with GitHub is NOT allowed through CLI)
-// Recommended to create it in the AWS Console UI
+// This is old code, recommended to create a connection in the AWS Console UI (Authentication with GitHub is NOT allowed through CLI)
 # resource "aws_codestarconnections_connection" "ecomm-api-pl-conn" {
 #   name          = "ecomm-api-pl-conn"
 #   provider_type = "GitHub"
