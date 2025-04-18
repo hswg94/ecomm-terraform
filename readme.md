@@ -10,7 +10,7 @@ In this project, Workspace variables in terraform cloud should include the follo
 
 3. CodeStar Connection ARN
 - This should be stored under "terraform" category
-- They are referenced in the s3-buckets.tf
+- They are referenced in the pipeline-backend.tf
 
 4. AWS_ACCESS_KEY_ID
 - This should be stored under "env" category  as a sensitive value
