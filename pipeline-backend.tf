@@ -1,11 +1,14 @@
 ////////////////////////////////////////////////////////////////////
 // This section creates the pipeline //
 
-// This is old code, recommended to create a connection in the AWS Console UI (Authentication with GitHub is NOT allowed through CLI)
-# resource "aws_codestarconnections_connection" "ecomm-api-pl-conn" {
-#   name          = "ecomm-api-pl-conn"
-#   provider_type = "GitHub"
-# }
+# CodeStar Connection is NOT allowed to be established through the CLI.
+# Create a CodeStar Connnection through the AWS UI, then store it as a variable in terraform cloud.
+# Lastly, import the 'connection_arn' variable from HCP terraform
+variable "connection_arn" {
+  type        = string
+  description = "This is a connection arn for CodePipeline to authenticate with GitHub"
+  sensitive   = false
+}
 
 //create the pipeline
 resource "aws_codepipeline" "ecomm-api-pl" {
@@ -29,7 +32,7 @@ resource "aws_codepipeline" "ecomm-api-pl" {
       version          = "1"
       output_artifacts = ["source_output"]
       configuration = {
-        ConnectionArn    = "arn:aws:codeconnections:ap-southeast-1:971422707089:connection/0ae0e363-0d9d-4779-a91c-c88e72d2c7d8" // create the connection in UI
+        ConnectionArn    = var.connection_arn
         FullRepositoryId = "hswg94/ecomm-express-api"
         BranchName       = "main"
         DetectChanges = "true"
