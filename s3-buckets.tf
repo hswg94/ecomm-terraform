@@ -1,6 +1,13 @@
 # This bucket is accessed by codepipeline to store ecomm-api
+# Import the 'Terraform Variable' from HCP terraform
+variable "ecomm-api-s3-for-cp" {
+  type        = string
+  description = "The S3 bucket name for AWS CodePipeline"
+  sensitive   = false
+}
+
 resource "aws_s3_bucket" "ecomm-api-s3-for-cp" {
-  bucket        = "ecomm-api-s3-for-cp"
+  bucket        = var.ecomm-api-s3-for-cp
   force_destroy = "true" //allow bucket to be deleted by terraform without removing files
 }
 
@@ -15,8 +22,14 @@ resource "aws_s3_bucket_public_access_block" "ecomm-api-bucket-pab" {
 ///////////////////////////////////////////////////////
 
 # This bucket is accessed by codebuild and cloudfront
+variable "ecomm-frontend-s3-for-cb-and-cf" {
+  type        = string
+  description = "The S3 bucket name used to store codebuild artifacts and accessed by cloudfront"
+  sensitive   = false
+}
+
 resource "aws_s3_bucket" "ecomm-frontend-s3-for-cb-and-cf" {
-  bucket        = "ecomm-frontend-s3-for-cb-and-cf"
+  bucket        = var.ecomm-frontend-s3-for-cb-and-cf
   force_destroy = "true" //allow bucket to be deleted by terraform
 }
 
