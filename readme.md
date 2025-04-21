@@ -23,3 +23,5 @@ In this project, Workspace variables in terraform cloud should include the follo
 6. AWS_DEFAULT_REGION
 - This should be stored under "env" category as a sensitive value
 - Automatically used by terraform cloud during runtime
+
+Full details on the system implementation and architecturing process can be found in Project Documentation.pdf.
