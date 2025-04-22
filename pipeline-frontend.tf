@@ -54,7 +54,7 @@ resource "aws_codebuild_project" "ecomm-frontend-builder" {
 # terraform_data resource to trigger CodeBuild on initial setup
 resource "terraform_data" "initial_codebuild_trigger" {
   triggers_replace = aws_codebuild_project.ecomm-frontend-builder.id
-  //must set AWS_DEFAULT_REGION in HCP Terraform as env var
+  //must set AWS_DEFAULT_REGION in HCP Terraform as env var as the runtime executed from terraform cloud
   provisioner "local-exec" {
     command = "aws codebuild start-build --project-name ${aws_codebuild_project.ecomm-frontend-builder.name}"
   }
