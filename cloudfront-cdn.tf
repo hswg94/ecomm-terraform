@@ -46,6 +46,10 @@ resource "aws_cloudfront_distribution" "s3-distribution" {
     minimum_protocol_version = "TLSv1.2_2021" # Ensures TLS 1.2+ for modern security compliance
   }
 
+
+# In a SPA, index.html handles all entry points and routes for the entire app.
+# If the CDN tries to find a real file at /profile, it will fail and a 403 or 404.
+# The custom error response tells it to serve index.html instead, so the SPA can render the correct view based on the URL.
   custom_error_response {
     error_caching_min_ttl = 300
     error_code = 403
