@@ -65,7 +65,7 @@ resource "aws_codedeploy_deployment_group" "ecomm-api-dg" {
   deployment_style {
     deployment_type = "IN_PLACE"
   }
-  autoscaling_groups = [aws_autoscaling_group.ecomm-api-asg.id]
+  autoscaling_groups = [aws_autoscaling_group.ecomm-api-asg.id] # deploy to the ASG
 }
 
 resource "aws_codedeploy_app" "ecomm-api" {
