@@ -4,11 +4,11 @@ resource "aws_security_group" "ec2-sg" {
   vpc_id      = aws_vpc.MyFypVpc.id
 
   ingress {
-    description = "Allow HTTP from anywhere"
+    description = "Allow HTTP from ALB only"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    security_groups = [aws_security_group.alb-sg.id] # Restrict to ALB SG
   }
 
   # Inbound rules
