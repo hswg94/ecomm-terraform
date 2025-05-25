@@ -1,12 +1,10 @@
 #!/bin/bash
-yum update -y
-
-#Install and run CodeDeploy agent
-yum install -y ruby wget aws-cli jq amazon-cloudwatch-agent
-wget https://aws-codedeploy-ap-southeast-1.s3.ap-southeast-1.amazonaws.com/latest/install
-chmod +x ./install
-./install auto
-service codedeploy-agent start
+yum update -y # Update packages in the package manager
+yum install -y ruby wget aws-cli jq amazon-cloudwatch-agent # Install necessary packages
+wget https://aws-codedeploy-ap-southeast-1.s3.ap-southeast-1.amazonaws.com/latest/install # Download the CodeDeploy agent installer
+chmod +x ./install # Make the installer executable
+./install auto # Install the CodeDeploy agent
+service codedeploy-agent start # Start the CodeDeploy agent
 
 ### THESE HAVE BEEN MOVED TO APPSPEC.YML ON THE APP SOURCE CODE
 # # Retrieve secrets from Secrets Manager
