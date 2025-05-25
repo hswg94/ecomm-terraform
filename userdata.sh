@@ -1,31 +1,34 @@
 #!/bin/bash
-yum update -y # Update packages in the package manager
-yum install -y ruby wget aws-cli jq amazon-cloudwatch-agent # Install necessary packages
-wget https://aws-codedeploy-ap-southeast-1.s3.ap-southeast-1.amazonaws.com/latest/install # Download the CodeDeploy agent installer
-chmod +x ./install # Make the installer executable
-./install auto # Install the CodeDeploy agent
-service codedeploy-agent start # Start the CodeDeploy agent
+set -x  #enables debug mode, which causes each command (and its arguments) to be printed to the terminal (and to the log) before it is executed.
 
-### THESE HAVE BEEN MOVED TO APPSPEC.YML ON THE APP SOURCE CODE
-# # Retrieve secrets from Secrets Manager
-# MONGO_URI=$(aws secretsmanager get-secret-value --secret-id MONGO_URI --query SecretString --output text | jq -r .MONGO_URI)
-# JWT_SECRET=$(aws secretsmanager get-secret-value --secret-id JWT_SECRET --query SecretString --output text | jq -r .JWT_SECRET)
-# PAYPAL_CLIENT_ID=$(aws secretsmanager get-secret-value --secret-id PAYPAL_CLIENT_ID --query SecretString --output text | jq -r .PAYPAL_CLIENT_ID)
-# PAYPAL_APP_SECRET=$(aws secretsmanager get-secret-value --secret-id PAYPAL_APP_SECRET --query SecretString --output text | jq -r .PAYPAL_APP_SECRET)
+echo "[USERDATA.SH] Updating packages..."
+yum update -y
 
-# # Set environmental variables
-# export NODE_ENV=production
-# export PORT=80
-# export PAYPAL_API_URL=https://api-m.sandbox.paypal.com
-# export MONGO_URI
-# export JWT_SECRET
-# export PAYPAL_CLIENT_ID
-# export PAYPAL_APP_SECRET
+echo "[USERDATA.SH] Installing ruby..."
+yum install -y ruby
 
-# # fetch, install and run the application
-# # yum install -y nodejs unzip wget aws-cli jq
-# # wget https://github.com/hswg94/ecomm-express-api/archive/refs/heads/main.zip
-# # unzip main.zip
-# # cd ecomm-express-api-main
-# # npm i
-# # npm run server -- --port 80 --host 0.0.0.0
+echo "[USERDATA.SH] Installing wget..."
+yum install -y wget
+
+echo "[USERDATA.SH] Installing aws-cli..."
+yum install -y aws-cli
+
+echo "[USERDATA.SH] Installing jq..."
+yum install -y jq
+
+echo "[USERDATA.SH] Installing amazon-cloudwatch-agent..."
+yum install -y amazon-cloudwatch-agent
+
+echo "[USERDATA.SH] Downloading CodeDeploy agent installer..."
+wget https://aws-codedeploy-ap-southeast-1.s3.ap-southeast-1.amazonaws.com/latest/install
+
+echo "[USERDATA.SH] Making CodeDeploy installer executable..."
+chmod +x ./install
+
+echo "[USERDATA.SH] Installing CodeDeploy agent..."
+./install auto
+
+echo "[USERDATA.SH] Starting CodeDeploy agent..."
+service codedeploy-agent start
+
+echo "[USERDATA.SH] User data script completed."
