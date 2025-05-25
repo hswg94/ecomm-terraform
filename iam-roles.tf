@@ -35,6 +35,16 @@ resource "aws_iam_instance_profile" "EC2AccessSMandCDInstanceProfile" {
   role = aws_iam_role.EC2AccessSMandCDRole.name
 }
 
+resource "aws_iam_role_policy_attachment" "AttachCloudWatchLogs" {
+  role       = aws_iam_role.EC2AccessSMandCDRole.id
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "AttachAmazonSSMManagedInstanceCore" {
+  role       = aws_iam_role.EC2AccessSMandCDRole.id
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
+
 ///////////////////////////////////////////////////////////////////////
 
 # CodeDeploy Role to access ASG and EC2 
