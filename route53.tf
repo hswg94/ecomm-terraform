@@ -5,7 +5,7 @@ resource "aws_route53_zone" "primary" {
 
 # Update name servers on the registered domain to match hosted zone
 resource "aws_route53domains_registered_domain" "update-domain-ns" {
-  domain_name   = "hswg94.com"
+  domain_name   = aws_route53_zone.primary.name
   auto_renew    = "false"
   transfer_lock = "false"
 
@@ -20,7 +20,7 @@ resource "aws_route53domains_registered_domain" "update-domain-ns" {
 //Create Records for API
 resource "aws_route53_record" "api-backend-endpoint" {
   zone_id = aws_route53_zone.primary.zone_id
-  name    = "api.hswg94.com"
+  name    = "api.${aws_route53_zone.primary.name}"
   type    = "A"
 
   alias {
@@ -31,7 +31,7 @@ resource "aws_route53_record" "api-backend-endpoint" {
 }
 resource "aws_route53_record" "api-backend-endpoint_cname" {
   zone_id = aws_route53_zone.primary.zone_id
-  name    = "www.api.hswg94.com"
+  name    = "www.api.${aws_route53_zone.primary.name}"
   type    = "CNAME"
   ttl = 300
   records = [aws_route53_record.api-backend-endpoint.name]
@@ -41,7 +41,7 @@ resource "aws_route53_record" "api-backend-endpoint_cname" {
 //Create Records for Frontend CloudFront Distribution
 resource "aws_route53_record" "frontend-endpoint" {
   zone_id = aws_route53_zone.primary.zone_id
-  name    = "ecomm.hswg94.com"
+  name    = "ecomm.${aws_route53_zone.primary.name}"
   type    = "A"
   alias {
     name                   = aws_cloudfront_distribution.s3-distribution.domain_name
@@ -52,7 +52,7 @@ resource "aws_route53_record" "frontend-endpoint" {
 
 resource "aws_route53_record" "frontend-endpoint_cname" {
   zone_id = aws_route53_zone.primary.zone_id
-  name    = "www.ecomm.hswg94.com"
+  name    = "www.ecomm.${aws_route53_zone.primary.name}"
   type    = "CNAME"
   ttl = 300
   records = [aws_route53_record.frontend-endpoint.name]
