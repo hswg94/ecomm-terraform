@@ -1,5 +1,5 @@
 #!/bin/bash
-set -x  #enables debug mode, which causes each command to be printed to the terminal before it is executed.
+set -x  #enables debug mode, print each command to the terminal before it is executed.
 
 echo "[USERDATA.SH] Updating packages..."
 yum update -y
