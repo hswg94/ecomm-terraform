@@ -19,7 +19,7 @@
             "retention_in_days": 365
           },
           {
-            "file_path": "/opt/codedeploy-agent/deployment-root/deployment-logs.log",
+            "file_path": "/opt/codedeploy-agent/deployment-root/deployment-logs/codedeploy-agent-deployments.log",
             "log_group_name": "api-ecomm-logs",
             "log_stream_name": "{instance_id}-codedeploy",
             "retention_in_days": 365
