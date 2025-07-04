@@ -14,8 +14,8 @@ variable "connection_arn" {
 resource "aws_codepipeline" "ecomm-api-pl" {
   name     = "ecomm-api-pl"
   role_arn = aws_iam_role.CodePipelineRole.arn
-  pipeline_type = "V2"
-  execution_mode = "QUEUED"
+  pipeline_type = "V2" # Use V2 as it supports the queued execution mode
+  execution_mode = "QUEUED" # Use QUEUED to allow multiple executions of the pipeline to queue up
 
   artifact_store {
     location = aws_s3_bucket.ecomm-api-s3-for-cp.bucket
@@ -35,7 +35,7 @@ resource "aws_codepipeline" "ecomm-api-pl" {
         ConnectionArn    = var.connection_arn
         FullRepositoryId = "hswg94/ecomm-express-api"
         BranchName       = "main"
-        DetectChanges = "true"
+        DetectChanges    = "true"
       }
     }
   }
