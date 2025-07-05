@@ -1,6 +1,6 @@
 terraform {
   // when upgrading version, first run 'choco upgrade terraform' on OS.
-  required_version = ">= 1.11.4"
+  required_version = ">= 1.12.2"
   cloud {
     organization = "computing-project"
     workspaces {
@@ -10,7 +10,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 5.95"
+      version = "~> 6.2"
     }
   }
 }
