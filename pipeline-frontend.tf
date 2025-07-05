@@ -1,20 +1,7 @@
-# Import the GITHUB_TOKEN that was stored as a 'Terraform Variable' from HCP Terraform
-variable "GITHUB_TOKEN" {
-  type        = string
-  description = "GitHub Token for CodeBuild"
-  sensitive   = true
-}
-
-# Use the GITHUB_TOKEN to create a CodeBuild source credential
 resource "aws_codebuild_source_credential" "codebuild-credentials" {
-  auth_type   = "PERSONAL_ACCESS_TOKEN"
+  auth_type   = "CODECONNECTIONS"
   server_type = "GITHUB"
-  token       = var.GITHUB_TOKEN
-}
-
-resource "aws_codebuild_webhook" "ecomm-frontend-builder-webhook" {
-  project_name = aws_codebuild_project.ecomm-frontend-builder.name
-  build_type   = "BUILD"
+  token       = var.connection_arn
 }
 
 resource "aws_codebuild_project" "ecomm-frontend-builder" {
