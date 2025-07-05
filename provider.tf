@@ -10,7 +10,7 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 6.2"
+      version = "~> 6.2" # must use `terraform init -upgrade` to allow selection of new versions
     }
   }
 }
