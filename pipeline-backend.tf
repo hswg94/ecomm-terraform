@@ -30,7 +30,7 @@ resource "aws_codepipeline" "ecomm-api-pl" {
       name             = "ApplicationSource"
       provider         = "CodeStarSourceConnection"
       version          = "1"
-      output_artifacts = ["source_output"]
+      output_artifacts = ["source_code_artifact"]
       configuration = {
         ConnectionArn    = var.connection_arn
         FullRepositoryId = "hswg94/ecomm-express-api"
@@ -47,7 +47,7 @@ resource "aws_codepipeline" "ecomm-api-pl" {
       owner           = "AWS"
       name            = "ApplicationDeploy"
       provider        = "CodeDeploy"
-      input_artifacts = ["source_output"]
+      input_artifacts = ["source_code_artifact"]
       version         = "1"
       configuration = {
         ApplicationName = aws_codedeploy_app.ecomm-api.name
