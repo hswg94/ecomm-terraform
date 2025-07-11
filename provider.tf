@@ -2,7 +2,7 @@ terraform {
   // when upgrading version, first run 'choco upgrade terraform' on OS.
   required_version = ">= 1.12.2"
   cloud {
-    organization = "computing-project"
+    organization = "aws-project-org"
     workspaces {
       name = "aws-project-workspace"
     }
