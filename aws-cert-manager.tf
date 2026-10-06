@@ -8,6 +8,7 @@ resource "aws_acm_certificate" "ap-southeast-1-cert" {
   validation_method = "DNS"
 }
 
+
 resource "aws_acm_certificate_validation" "ap-southeast-1-cert" {
   certificate_arn         = aws_acm_certificate.ap-southeast-1-cert.arn
   validation_record_fqdns = [for record in aws_route53_record.cert-validation-ap-southeast-1 : record.fqdn]
