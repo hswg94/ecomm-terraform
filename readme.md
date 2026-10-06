@@ -2,17 +2,13 @@
 
 Before running Terraform, ensure the following resources and configurations are set up in AWS:
 
-1. **CodeStar Connection for GitHub (Backend CI/CD Pipeline)**
+1. **CodeStar Connection for GitHub (Both CI/CD Pipelines)**
    - Go to the AWS Console → Developer Tools → Connections.
    - Create a new CodeStar Connection to your GitHub account.
    - Approve the connection in GitHub if prompted.
    - Copy the Connection ARN and add it as the `connection_arn` workspace variable in Terraform Cloud.
 
-2. **GitHub Personal Access Token**
-   - Create a GitHub token for the frontend CI/CD pipeline.
-   - Store it as the `GITHUB_TOKEN` workspace variable in Terraform Cloud.
-
-3. **AWS Secrets (for application environment variables)**
+2. **AWS Secrets (for application environment variables)**
    - Store the following secrets in AWS Secrets Manager or as environment variables, as required by the backend application:
      - `NODE_ENV`
      - `PORT`
@@ -35,23 +31,19 @@ Set the following workspace variables in Terraform Cloud before running Terrafor
    - Store under the "terraform" category.
    - Referenced in `s3-buckets.tf`.
 
-2. **GitHub Token for CodeBuild**
-   - Store under the "terraform" category, with sensitive checked.
-   - Referenced in `pipeline-frontend.tf`.
-
-3. **CodeStar Connection ARN**
+2. **CodeStar Connection ARN**
    - Store under the "terraform" category.
    - Referenced in `pipeline-backend.tf`.
 
-4. **AWS_ACCESS_KEY_ID**
+3. **AWS_ACCESS_KEY_ID**
    - Store under the "env" category as a sensitive value.
    - Automatically used by Terraform Cloud during runtime.
 
-5. **AWS_SECRET_ACCESS_KEY**
+4. **AWS_SECRET_ACCESS_KEY**
    - Store under the "env" category as a sensitive value.
    - Automatically used by Terraform Cloud during runtime.
 
-6. **AWS_DEFAULT_REGION**
+5. **AWS_DEFAULT_REGION**
    - Store under the "env" category as a sensitive value.
    - Automatically used by Terraform Cloud during runtime.
 
