@@ -29,11 +29,11 @@ Set the following workspace variables in Terraform Cloud before running Terrafor
 
 1. **S3 Bucket Names**
    - Store under the "terraform" category.
-   - Referenced in `s3-buckets.tf`.
+   - Variables `ecomm-api-s3-for-cp` and `ecomm-frontend-s3-for-cb-and-cf`, declared in `variables.tf`.
 
 2. **CodeStar Connection ARN**
    - Store under the "terraform" category.
-   - Referenced in `pipeline-backend.tf`.
+   - Variable `connection_arn`, declared in `variables.tf`.
 
 3. **AWS_ACCESS_KEY_ID**
    - Store under the "env" category as a sensitive value.

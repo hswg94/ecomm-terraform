@@ -15,13 +15,9 @@ terraform {
   }
 }
 
+# Resources outside ap-southeast-1 set their own `region` argument (AWS provider 6.0+), e.g. the CloudFront certificate in modules/dns
 provider "aws" {
   region = "ap-southeast-1"
-}
-
-provider "aws" {
-  alias  = "us-east-1"
-  region = "us-east-1"
 }
 
 /*

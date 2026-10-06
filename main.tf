@@ -1,59 +1,53 @@
-# Create VPC
-resource "aws_vpc" "MyFypVpc" {
-  cidr_block = "10.0.0.0/16"
-  tags = {
-    Name = "MyFypVpc"
-  }
+locals {
+  api_domain      = "api.${var.domain_name}"
+  frontend_domain = "ecomm.${var.domain_name}"
 }
 
-# Create Internet Gateway and place in the VPC
-resource "aws_internet_gateway" "igw" {
-  vpc_id = aws_vpc.MyFypVpc.id
-  tags = {
-    Name = "MyFypVpc-igw"
-  }
+# VPC, public subnets and routing
+module "network" {
+  source = "./modules/network"
 }
 
-# Create 2 Public Subnets
-resource "aws_subnet" "public-subnet-1" {
-  vpc_id                  = aws_vpc.MyFypVpc.id
-  cidr_block              = "10.0.1.0/24"
-  availability_zone       = "ap-southeast-1a"
-  map_public_ip_on_launch = true  # Enable public IPs
-  tags = {
-    Name = "MyFypVpc-public-subnet-1"
-  }
+# Hosted zone, registered-domain name servers and ACM certificates
+module "dns" {
+  source          = "./modules/dns"
+  domain_name     = var.domain_name
+  api_domain      = local.api_domain
+  frontend_domain = local.frontend_domain
 }
 
-resource "aws_subnet" "public-subnet-2" {
-  vpc_id                  = aws_vpc.MyFypVpc.id
-  cidr_block              = "10.0.2.0/24"
-  availability_zone       = "ap-southeast-1b"
-  map_public_ip_on_launch = true  # Enable public IPs
-  tags = {
-    Name = "MyFypVpc-public-subnet-2"
-  }
+# API runtime: security groups, EC2 launch template, ALB, Auto Scaling Group, api.* records
+module "backend" {
+  source          = "./modules/backend"
+  vpc_id          = module.network.vpc_id
+  subnet_ids      = module.network.public_subnet_ids
+  zone_id         = module.dns.zone_id
+  certificate_arn = module.dns.alb_certificate_arn
+  api_domain      = local.api_domain
 }
 
-# Create Route Table for routing traffic to the Internet Gateway
-resource "aws_route_table" "public-rt" {
-  vpc_id = aws_vpc.MyFypVpc.id
-  route {
-    cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.igw.id
-  }
-  tags = {
-    Name = "MyFypVpc-public-rt"
-  }
+# API CI/CD: GitHub -> CodePipeline -> CodeDeploy -> Auto Scaling Group
+module "backend_cicd" {
+  source               = "./modules/backend-cicd"
+  artifact_bucket_name = var.ecomm-api-s3-for-cp
+  connection_arn       = var.connection_arn
+  repository_id        = "hswg94/ecomm-express-api"
+  asg_name             = module.backend.asg_name
 }
 
-# Associate the route table to the subnets
-resource "aws_route_table_association" "public-subnet-association-1" {
-  subnet_id      = aws_subnet.public-subnet-1.id
-  route_table_id = aws_route_table.public-rt.id
+# Frontend hosting: S3 bucket, CloudFront, ecomm.* records
+module "frontend" {
+  source          = "./modules/frontend"
+  bucket_name     = var.ecomm-frontend-s3-for-cb-and-cf
+  zone_id         = module.dns.zone_id
+  certificate_arn = module.dns.cloudfront_certificate_arn
+  frontend_domain = local.frontend_domain
 }
 
-resource "aws_route_table_association" "public-subnet-association_2" {
-  subnet_id      = aws_subnet.public-subnet-2.id
-  route_table_id = aws_route_table.public-rt.id
+# Frontend CI/CD: GitHub -> CodeBuild -> S3 bucket
+module "frontend_cicd" {
+  source         = "./modules/frontend-cicd"
+  bucket_name    = module.frontend.bucket_name
+  connection_arn = var.connection_arn
+  repository_url = "https://github.com/hswg94/ecomm-react-frontend"
 }
