@@ -54,7 +54,7 @@ resource "aws_s3_bucket_policy" "allow-cloudfront-access" {
           "Service" : "cloudfront.amazonaws.com"
         },
         "Action" : "s3:GetObject",
-        "Resource" : "arn:aws:s3:::ecomm-frontend-s3-for-cb-and-cf/*",
+        "Resource" : "${aws_s3_bucket.ecomm-frontend-s3-for-cb-and-cf.arn}/*",
         "Condition" : {
           "StringEquals" : {
             "AWS:SourceArn" : aws_cloudfront_distribution.s3-distribution.arn

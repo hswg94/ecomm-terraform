@@ -65,7 +65,6 @@ resource "aws_autoscaling_group" "ecomm-api-asg" {
 resource "aws_autoscaling_policy" "ecomm-api-asg-policy" {
   name                   = "ecomm-api-asg-policy"
   autoscaling_group_name = aws_autoscaling_group.ecomm-api-asg.name
-  adjustment_type        = "ChangeInCapacity"
   policy_type            = "TargetTrackingScaling"
   target_tracking_configuration {
     predefined_metric_specification {
